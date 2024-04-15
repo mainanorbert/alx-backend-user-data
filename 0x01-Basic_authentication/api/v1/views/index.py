@@ -20,8 +20,8 @@ def unauthorized_endpoint():
     abort(401)
 
 
-@app_views.route('/forbidden/', struct_slashes=False)
-def forbidden_endpoint() -> str:
+@app_views.route('/forbidden/', strict_slashes=False)
+def forbidden_endpoint():
     """Error handler: Forbidden"""
     abort(403)
 
