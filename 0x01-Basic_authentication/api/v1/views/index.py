@@ -14,13 +14,13 @@ def status() -> str:
     return jsonify({"status": "OK"})
 
 
-@app_views.route('/unauthorized')
+@app_views.route('/unauthorized/', strict_slashes=False)
 def unauthorized_endpoint():
     """unauthorized endpoint"""
     abort(401)
 
 
-@app_views.route('/forbidden')
+@app_views.route('/forbidden/', struct_slashes=False)
 def forbidden_endpoint() -> str:
     """Error handler: Forbidden"""
     abort(403)
