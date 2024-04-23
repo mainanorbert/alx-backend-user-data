@@ -69,6 +69,8 @@ class Auth:
 
     def destroy_session(self, user_id: int) -> None:
         """method that destroys a session"""
+        id user_id is None:
+            return None
         try:
             user = self._db.find_user_by(id=user_id)
             user.session_id = None
