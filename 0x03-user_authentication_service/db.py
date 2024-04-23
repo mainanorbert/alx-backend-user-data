@@ -1,14 +1,12 @@
-#!usr/bin/env python3
-"""DB module
-"""
-from user import User
+#!/usr/bin/env python3
 
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
-
-from user import Base
+from sqlalchemy.exc import InvalidRequestError
+from sqlalchemy.orm.exc import NoResultFound
+from user import Base, User
 
 
 class DB:
@@ -33,8 +31,14 @@ class DB:
         return self.__session
 
     def add_user(self, email: str, hashed_password: str) -> User:
-        """adding user to db"""
-        user = User(email=email, hashed_password=hashed_password)
-        self._session.add(user)
-        self._session.commit()
-        return user
+        """Add a new user to the database
+        """
+        try:
+            user = User(email=email, hashed_password=hashed_password)
+            self._session.add(user)
+            self._session.commit()
+            return user
+        except IntegrityError:
+            # Handle integrity error (e.g., duplicate email)
+            self._session.rollback()
+            return None
