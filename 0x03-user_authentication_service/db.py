@@ -7,6 +7,8 @@ from sqlalchemy.orm.session import Session
 from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
 from user import Base, User
+from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.exc import InvalidRequestError
 
 
 class DB:
@@ -42,3 +44,12 @@ class DB:
             # Handle integrity error (e.g., duplicate email)
             self._session.rollback()
             return None
+
+    def find_user_by(self, **kwargs) -> User:
+        """method to find user using kwargs"""
+        try:
+            return self._session.query(User).filter_by(**kwargs).one()
+        except NoResultFound:
+            raise NoResultFound()
+        except InvalidRequestError:
+            raise InvalidRequestError()
