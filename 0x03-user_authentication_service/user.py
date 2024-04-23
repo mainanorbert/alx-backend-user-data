@@ -3,6 +3,7 @@
 
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
+from typing import Optional
 
 Base = declarative_base()
 
@@ -12,6 +13,6 @@ class User(Base):
     __tablename__: str = 'users'
     id: int = Column(Integer, primary_key=True)
     email: str = Column(String, nullable=False)
-    hashed_password: str = Column(String, nullable=False)
-    session_id: str = Column(String, nullable=True)
-    reset_token: str = Column(String, nullable=True)
+    hashed_password: Optional[str] = Column(String, nullable=False)
+    session_id: Optional[str] = Column(String, nullable=True)
+    reset_token: Optional[str] = Column(String, nullable=True)
