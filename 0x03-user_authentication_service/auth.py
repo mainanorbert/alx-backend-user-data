@@ -71,10 +71,4 @@ class Auth:
         """method that destroys a session"""
         id user_id is None:
             return None
-        try:
-            user = self._db.find_user_by(id=user_id)
-            user.session_id = None
-            self._db.commit()
-            return None
-        except NoResultFound:
-            NoResultFound()
+        self._db.update_user(user_id, session_id=None)
